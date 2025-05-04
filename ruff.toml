@@ -1,0 +1,94 @@
+target-version = "py311"
+line-length = 120
+src = [
+    "src",
+    "tests",
+]
+fix = true
+unsafe-fixes = true
+extend-exclude = [
+    "alembic",
+]
+
+[lint]
+select = [
+    "I",      # isort: Проверка правильности импортов (сортировка и форматирование)
+    "E",      # pycodestyle errors: Ошибки, связанные с PEP 8
+    "F",      # pyflakes: Обнаружение неиспользуемых импортов, переменных и других проблем
+    "PL",     # pylint: Правила из Pylint, интегрированные в Ruff
+    "R",      # pycodestyle refactoring: Предложения по рефакторингу кода
+    "C",      # flake8-comprehensions: Улучшение списковых включений и генераторов
+    "W",      # pycodestyle warnings: Предупреждения, связанные с PEP 8
+    "C90",    # mccabe: Проверка сложности кода (цикломатическая сложность)
+    "N",      # pep8-naming: Проверка соответствия именования PEP 8
+    "B",      # flake8-bugbear: Обнаружение потенциальных ошибок и антипаттернов
+    "COM",    # flake8-commas: Проверка правильности использования запятых
+    "C4",     # flake8-comprehensions: Улучшение списковых включений и генераторов
+    "ISC",    # flake8-implicit-str-concat: Обнаружение неявной конкатенации строк
+    "PIE",    # flake8-pie: Обнаружение ненужного или избыточного кода
+    "T20",    # flake8-print: Запрет на использование `print()` в коде
+    "PYI",    # flake8-pyi: Проверка файлов `.pyi` (stub files)
+    "RSE",    # flake8-raise: Проверка корректности использования `raise`
+    "RET",    # flake8-return: Проверка корректности операторов `return`
+    "SLF",    # flake8-self: Проверка использования `self` и `cls`
+    "SIM",    # flake8-simplify: Упрощение сложных выражений
+    "PTH",    # flake8-use-pathlib: Рекомендации по использованию `pathlib`
+    "RUF",    # ruff-specific: Правила, специфичные для Ruff
+    "UP006",  # Use list[T] instead of List[T]: Современный синтаксис аннотаций типов
+]
+ignore = [
+    "D1",      # Отсутствие docstring в публичном модуле
+    "B008",    # Запрет вызовов функций в значениях по умолчанию для аргументов
+    "ANN401",  # Использование typing.Any (динамическая типизация)
+    "RUF001",  # Неоднозначный символ Unicode в коде
+    "RUF002",  # Неопределённый элемент в __all__
+    "RUF003",  # Неиспользуемый импорт в __all__
+    "RUF012",  # Неиспользуемая переменная в генераторе или comprehension
+    "SLF001",  # Доступ к приватному члену класса извне
+]
+extend-safe-fixes = [
+    "TCH", # move import from and to TYPE_CHECKING blocks
+]
+unfixable = [
+    "ERA", # do not autoremove commented out code
+]
+
+[lint.extend-per-file-ignores]
+"tests/*.py" = [
+    "ANN001",  # Отсутствие аннотации типа для аргумента функции
+    "ANN002",  # Отсутствие аннотации типа для возвращаемого значения функции
+    "ANN003",  # Отсутствие аннотации типа для переменной
+    "ANN401",  # Использование typing.Any (динамическая типизация)
+    "S101",    # Использование `assert` в тестах (может быть небезопасным)
+    "PLR2004", # Магические числа в коде
+    "S311",    # Использование небезопасных генераторов случайных чисел (random)
+    "SLF001",  # Доступ к приватному атрибуту класса извне
+    "PLR0913", # Функция или метод имеет слишком много аргументов
+]
+"*/__init__*" = ["F401", "F403"]
+"*/alembic/versions/*" = ["E501", "W291"]
+
+[format]
+docstring-code-format = true
+quote-style = "single"
+
+[lint.isort]
+lines-after-imports = 2
+split-on-trailing-comma = true
+force-wrap-aliases = true
+combine-as-imports = true
+known-third-party = []
+known-first-party = []
+known-local-folder = []
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
+no-lines-before = ["standard-library", "local-folder"]
+
+[lint.mccabe]
+max-complexity = 10
+
+[lint.pylint]
+max-args = 7
+
+[lint.pep8-naming]
+# Allow Pydantic's `@field_validator` decorator to trigger class method treatment.
+classmethod-decorators = ["classmethod", "pydantic.field_validator"]

@@ -1,0 +1,20 @@
+version: '3.4'
+
+services:
+  db:
+    image: postgres:15
+    container_name: postgres
+    restart: always
+    env_file: .env.example
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5678:5432"
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-h", "localhost", "-U", "$POSTGRES_USER", "-d", "$POSTGRES_DB" ]
+      retries: 20
+      interval: 3s
+      start_period: 5s
+
+volumes:
+  postgres-data:

@@ -18,6 +18,7 @@ def prepare_test_database(settings: Settings) -> None:
     test_db_name = "pytest_db"
     test_db_url = real_dsn[0: real_dsn.rfind("/") + 1] + test_db_name
     with create_engine(real_dsn, isolation_level="AUTOCOMMIT").connect() as connection:
+        # connection.execute(text(f'DROP DATABASE "{test_db_name}";'))
         connection.execute(text(f'CREATE DATABASE "{test_db_name}"'))
 
     try:

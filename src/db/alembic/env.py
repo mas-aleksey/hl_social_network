@@ -20,7 +20,7 @@ def run_migrations() -> None:
         with context.begin_transaction() as transaction:
             context.run_migrations()
             if "dry-run" in context.get_x_argument():
-                print("Dry-run succeeded; now rolling back transaction...")  # noqa: T201
+                print("Dry-run succeeded; now rolling back transaction...")
                 transaction.rollback()
     connectable.dispose()
 

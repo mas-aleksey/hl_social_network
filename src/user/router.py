@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from db.connector import get_db_connection
 from settings import get_settings
 from user.auth import authorized_user, make_token
-from user.schemas import LoginUser, RegisterResponse, RegisterUser, Token, UserInfo
+from user.schemas import LoginUser, RegisterResponse, RegisterUser, SearchUser, Token, UserInfo
 
 
 router = APIRouter(tags=["User"])
@@ -56,3 +56,17 @@ async def get_user(
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     return UserInfo(**user)
+
+
+@router.get("/user/search")
+async def search_user(
+    params: SearchUser = Depends(SearchUser),
+    conn: Connection = Depends(get_db_connection),
+    _=Depends(authorized_user),
+) -> list[UserInfo]:
+    users = await conn.fetch(
+        "SELECT * FROM users WHERE first_name LIKE $1 AND last_name LIKE $2 ORDER BY id",
+        f"{params.first_name}%",
+        f"{params.last_name}%",
+    )
+    return [UserInfo(**user) for user in users]

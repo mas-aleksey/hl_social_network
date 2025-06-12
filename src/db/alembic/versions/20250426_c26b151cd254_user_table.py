@@ -20,8 +20,8 @@ def upgrade():
         """
         CREATE TABLE users (
             id VARCHAR(100) PRIMARY KEY,
-            first_name VARCHAR(100),
-            last_name VARCHAR(100),
+            first_name VARCHAR(100) COLLATE "C",
+            last_name VARCHAR(100) COLLATE "C",
             birthdate DATE,
             gender VARCHAR(10),
             interests TEXT,

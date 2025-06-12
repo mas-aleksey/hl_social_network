@@ -35,3 +35,8 @@ class RegisterUser(BaseModel):
 
 class RegisterResponse(BaseModel):
     user_id: str
+
+
+class SearchUser(BaseModel):
+    first_name: str
+    last_name: str

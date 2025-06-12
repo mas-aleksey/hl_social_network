@@ -26,6 +26,7 @@ pytest-asyncio = "0.21.2"
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 asyncio_mode = "auto"
+mock_use_standalone_module = true
 
 [build-system]
 requires = ["poetry-core"]
